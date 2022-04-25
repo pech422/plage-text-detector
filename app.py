@@ -1,10 +1,30 @@
-from flask import Flask
+from flask import Flask, render_template
+import re
 
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
-    return "<h1>Hello, World!</h1>"
+def index():
+    return render_template("index.html")
+
+@app.route("/text_simi")
+def text_simi():
+    f = open("data/agenda.csv", 'r')
+    agenda = []
+    '''agenda2 = []
+    for i in range(len(agenda)):
+        if (agenda[i] != ","):
+            agenda2[j] += agenda[i]'''
+
+    filepath = "data/agenda.csv"
+    with open(filepath, 'r') as fp:
+        line = fp.readline()
+        while line:
+            line = fp.readline()
+            agenda.append(line.split(',', 2))
+    
+    #agenda = re.sub(r"(\\n']|\['|')', '", agenda[3])
+    return render_template("text_simi.html", test=agenda)
 
 
 if __name__ == '__main__':
