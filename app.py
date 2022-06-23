@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import re
 import json
 import pandas as pd
@@ -56,6 +56,18 @@ def getAdults(edad):
 
 
     return jsonify(adults) if adults else jsonify(edad=edad, error="Age not found."), 404
+
+@app.route("/api/nlp/<text>")
+def text_processing():
+    
+    return render_template("index.html")
+
+
+@app.route('/api/audio_post', methods=['GET', 'POST'])
+def upload_model():
+    audio = request.files['audio'].read()
+    print(audio)
+    return render_template('index.html', audio=audio)
 
     
 if __name__ == '__main__':
